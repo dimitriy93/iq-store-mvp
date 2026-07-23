@@ -1,5 +1,5 @@
 import type {ReactNode} from "react";
-import {Header} from "@/app/layouts/header";
+import {Header} from "@/app/layout/header";
 
 interface IAppLayoutProps {
     children?: ReactNode

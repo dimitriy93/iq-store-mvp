@@ -1,5 +1,5 @@
 import {createBrowserRouter, Outlet, Navigate} from "react-router";
-import {AppLayout} from "../layouts/app-layout";
+import {AppLayout} from "../layout/app-layout";
 
 export const routes = createBrowserRouter([
     {

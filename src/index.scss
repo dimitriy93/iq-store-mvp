@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Brand */
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .04);
+  --transition: .22s cubic-bezier(.22, .61, .36, 1);
+  /* Semantic */
+  --color-background: #f5f6f7;
+  --color-border: #e5e7eb;
+  --color-danger: #dc2626;
+  /* Background */
+  --header-height: 64px;
+  --color-hover: #eef2f3;
+  --shadow-hover: 0 10px 30px rgba(0, 0, 0, .06);
+  /* Text */
+  --color-primary: #0f766e;
+  --color-primary-active: #134e4a;
+  --color-primary-hover: #115e59;
+  /* Borders */
+  --color-success: #16a34a;
+  /* Radius */
+  --color-surface: #ffffff;
+  /* Shadow */
+  --color-text: #111827;
+  --color-text-muted: #9ca3af;
+  /* Layout */
+  --color-text-secondary: #4b5563;
+  --color-warning: #d97706;
+  /* Animation */
+  --container-width: 1280px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+  min-height: 100vh;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: var(--container-width);
+  padding: 0 32px;
+  width: 100%;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -.03em;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+::selection {
+  background: rgba(15, 118, 110, .18);
+}
+
+:focus-visible {
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, .18);
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 18px;
+  }
+}
