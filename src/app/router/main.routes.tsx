@@ -1,5 +1,8 @@
 import {createBrowserRouter, Outlet, Navigate} from "react-router";
 import {AppLayout} from "../layout/app-layout";
+import {CatalogPage} from "@/widgets/catalog";
+import {CartPage} from "@/widgets/cart";
+import {BluetoothPage} from "@/widgets/bluetooth";
 
 export const routes = createBrowserRouter([
     {
@@ -10,9 +13,9 @@ export const routes = createBrowserRouter([
         ),
         children: [
             { path: "/", element: <Navigate to="/catalog" replace /> },
-            { path: "/catalog", element: <div>Catalog</div> },
-            { path: "/cart", element: <div>Cart</div> },
-            { path: "/bluetooth", element: <div>Bluetooth</div> },
+            { path: "/catalog", element: <CatalogPage/> },
+            { path: "/cart", element: <CartPage/> },
+            { path: "/bluetooth", element: <BluetoothPage/> },
         ]
     },
 ])

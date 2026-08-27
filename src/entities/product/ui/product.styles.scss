@@ -1,0 +1,108 @@
+.product-card {
+  animation: fade-up 0.6s var(--ease-lux) both;
+}
+
+.product-card__body {
+  background: rgb(16 16 19 / 0.8);
+  border: 1px solid rgb(255 255 255 / 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+  transition: transform 0.5s var(--ease-lux),
+  border-color 0.5s var(--ease-lux),
+  box-shadow 0.5s var(--ease-lux);
+}
+
+.product-card:hover .product-card__body {
+  border-color: rgb(255 255 255 / 0.12);
+  box-shadow: var(--shadow-lift);
+  transform: translateY(-4px);
+}
+
+.product-card__plate {
+  aspect-ratio: 1;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgb(255 255 255 / 0.09), transparent 70%),
+    var(--ink-950);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+}
+
+.product-card__plate img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s var(--ease-lux);
+  width: 100%;
+}
+
+.product-card:hover .product-card__plate img {
+  transform: scale(1.07);
+}
+
+.product-card__copy {
+  padding: 12px 4px 0;
+}
+
+.product-card__copy h3 {
+  -webkit-box-orient: vertical;
+  color: var(--chalk);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+.product-card__price {
+  color: var(--gold-400);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.product-card__button {
+  align-items: center;
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: var(--radius-md);
+  color: var(--chalk);
+  display: flex;
+  font-size: 11px;
+  font-weight: 600;
+  gap: 6px;
+  height: 40px;
+  justify-content: center;
+  letter-spacing: 0.18em;
+  margin-top: 12px;
+  text-transform: uppercase;
+  transition: all 0.5s var(--ease-lux);
+}
+
+.product-card__button:hover:not(:disabled) {
+  background: rgb(56 240 228 / 0.1);
+  border-color: rgb(56 240 228 / 0.4);
+  box-shadow: var(--shadow-glow);
+  color: var(--neon-400);
+}
+
+.product-card__button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.product-card__button:disabled {
+  color: var(--smoke);
+  cursor: not-allowed;
+}
+
+.product-card__button-icon {
+  height: 14px;
+  width: 14px;
+}

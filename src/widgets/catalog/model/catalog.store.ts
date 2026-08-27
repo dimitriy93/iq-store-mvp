@@ -1,5 +1,5 @@
 import type {IProduct} from "@/entities/product";
-import type {ICatalogRepository} from "@/widgets/catalog";
+import {CatalogRepository, type ICatalogRepository} from "@/widgets/catalog";
 import type {ICategory} from "@/entities/category";
 import {computed, makeAutoObservable} from "mobx";
 
@@ -11,7 +11,7 @@ export class CatalogStore {
     selectedCategoryId: number | null = null;
     currentPage: number = 1;
 
-    readonly itemsPerPage: number = 10;
+    readonly itemsPerPage: number = 12;
     private readonly repository: ICatalogRepository;
 
     constructor(repository: ICatalogRepository) {
@@ -29,7 +29,7 @@ export class CatalogStore {
         }
 
         return this.products.filter(
-            (product: IProduct) => product.categoryId === this.selectedCategoryId
+            product => product.categoryId === this.selectedCategoryId
         );
     }
 
@@ -77,3 +77,5 @@ export class CatalogStore {
         }
     }
 }
+
+export const catalogStore = new CatalogStore(new CatalogRepository());

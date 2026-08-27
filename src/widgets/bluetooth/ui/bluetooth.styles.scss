@@ -1,0 +1,467 @@
+.bluetooth {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0 20px 40px;
+}
+
+.bluetooth__header {
+  animation: fade-up 0.6s var(--ease-lux) both;
+  margin-bottom: 8px;
+}
+
+.bluetooth__eyebrow {
+  color: var(--smoke);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.bluetooth__heading {
+  color: var(--chalk);
+  font-size: 26px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-top: 6px;
+}
+
+.bluetooth__heading-accent {
+  background: linear-gradient(100deg, var(--chalk) 10%, var(--neon-400) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+
+/* Radar stage */
+
+.bluetooth__radar {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.bluetooth__radar-stage {
+  display: flex;
+  height: 260px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 260px;
+}
+
+.bluetooth__radar-ring {
+  border: 1px solid rgb(255 255 255 / 0.06);
+  border-radius: 50%;
+  position: absolute;
+}
+
+.bluetooth__radar-ripple {
+  animation: radar 2.8s var(--ease-lux) infinite;
+  border: 1px solid rgb(56 240 228 / 0.25);
+  border-radius: 50%;
+  height: 128px;
+  position: absolute;
+  width: 128px;
+}
+
+.bluetooth__radar-ripple--active {
+  border-color: rgb(56 240 228 / 0.55);
+}
+
+.bluetooth__radar-glow {
+  background: rgb(56 240 228 / 0.1);
+  border-radius: 50%;
+  filter: blur(64px);
+  height: 190px;
+  position: absolute;
+  transition: background 1s var(--ease-lux);
+  width: 190px;
+}
+
+.bluetooth__radar-glow--busy {
+  background: rgb(56 240 228 / 0.25);
+}
+
+.bluetooth__radar-glow--connected {
+  background: rgb(56 240 228 / 0.2);
+}
+
+.bluetooth__radar-scan {
+  background: conic-gradient(from 0deg, transparent 0deg, rgb(56 240 228 / 0) 200deg, rgb(56 240 228 / 0.55) 330deg, rgb(127 248 238 / 1) 360deg);
+  border-radius: 50%;
+  height: 152px;
+  mask-image: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  -webkit-mask-image: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  opacity: 0;
+  position: absolute;
+  transition: opacity 0.5s var(--ease-lux);
+  width: 152px;
+}
+
+.bluetooth__radar-scan--active {
+  animation: spin 2.6s linear infinite;
+  opacity: 1;
+}
+
+.bluetooth__action {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 132px;
+  justify-content: center;
+  padding: 0 16px;
+  text-align: center;
+  transition: all 0.7s var(--ease-lux);
+  width: 132px;
+  z-index: 10;
+}
+
+.bluetooth__action:hover:not(:disabled) {
+  border-color: rgb(56 240 228 / 0.35);
+  box-shadow: 0 0 50px -16px rgb(56 240 228 / 0.6);
+}
+
+.bluetooth__action--busy {
+  border-color: rgb(56 240 228 / 0.45);
+  box-shadow: 0 0 60px -12px rgb(56 240 228 / 0.75);
+}
+
+.bluetooth__action--connected {
+  border-color: rgb(56 240 228 / 0.55);
+  box-shadow: 0 0 60px -10px rgb(56 240 228 / 0.85);
+}
+
+.bluetooth__action:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.bluetooth__action:disabled {
+  cursor: wait;
+}
+
+.bluetooth__action-icon {
+  color: var(--chalk);
+  height: 32px;
+  transition: color 0.7s var(--ease-lux),
+  filter 0.7s var(--ease-lux);
+  stroke-width: 1.5;
+  width: 32px;
+}
+
+.bluetooth__action:hover:not(:disabled) .bluetooth__action-icon {
+  color: var(--neon-400);
+}
+
+.bluetooth__action-icon--busy {
+  color: var(--neon-400);
+  filter: drop-shadow(0 0 14px rgb(56 240 228 / 0.9));
+  height: 28px;
+  width: 28px;
+}
+
+.bluetooth__action-icon--connected {
+  color: var(--neon-400);
+  filter: drop-shadow(0 0 14px rgb(56 240 228 / 0.9));
+  height: 28px;
+  stroke-width: 1.6;
+  width: 28px;
+}
+
+.bluetooth__action-icon--off {
+  color: var(--smoke);
+}
+
+.bluetooth__action-label {
+  color: var(--mist);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  transition: color 0.5s var(--ease-lux);
+}
+
+.bluetooth__action:hover:not(:disabled) .bluetooth__action-label {
+  color: var(--chalk);
+}
+
+.bluetooth__action-label--active {
+  color: var(--neon-400);
+}
+
+.bluetooth__action-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.bluetooth__action-dot {
+  animation: breathe 1.1s ease-in-out infinite;
+  background: var(--neon-500);
+  border-radius: 50%;
+  height: 4px;
+  width: 4px;
+}
+
+.bluetooth__status {
+  animation: fade-in 0.5s var(--ease-lux) both;
+  color: var(--smoke);
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Error toast */
+
+.bluetooth__toast {
+  align-items: flex-start;
+  animation: fade-up 0.6s var(--ease-lux) both;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgb(255 107 94 / 0.08);
+  border: 1px solid rgb(255 107 94 / 0.35);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 40px -20px rgb(255 107 94 / 0.8);
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 14px;
+}
+
+.bluetooth__toast-icon {
+  color: var(--ember);
+  flex-shrink: 0;
+  height: 16px;
+  margin-top: 2px;
+  width: 16px;
+}
+
+.bluetooth__toast-text {
+  color: rgb(245 245 247 / 0.85);
+  flex: 1;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.bluetooth__toast-close {
+  border-radius: 50%;
+  color: var(--smoke);
+  padding: 4px;
+  transition: all 0.3s var(--ease-lux);
+}
+
+.bluetooth__toast-close:hover {
+  background: rgb(255 255 255 / 0.08);
+  color: var(--chalk);
+}
+
+.bluetooth__toast-close:active {
+  transform: scale(0.9);
+}
+
+.bluetooth__toast-close-icon {
+  display: block;
+  height: 14px;
+  width: 14px;
+}
+
+/* Paired device card */
+
+.bluetooth__device {
+  animation: fade-up 0.6s var(--ease-lux) both;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgb(16 16 19 / 0.7);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: var(--radius-xl);
+  margin-top: 20px;
+  padding: 16px;
+}
+
+.bluetooth__device-top {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.bluetooth__device-name-wrap {
+  min-width: 0;
+}
+
+.bluetooth__device-label {
+  color: var(--smoke);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.bluetooth__device-name {
+  color: var(--chalk);
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bluetooth__device-badge {
+  align-items: center;
+  background: rgb(255 255 255 / 0.05);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 9999px;
+  color: var(--smoke);
+  display: flex;
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 600;
+  gap: 6px;
+  letter-spacing: 0.14em;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  transition: all 0.5s var(--ease-lux);
+}
+
+.bluetooth__device-badge--connected {
+  background: rgb(56 240 228 / 0.1);
+  border-color: rgb(56 240 228 / 0.35);
+  box-shadow: 0 0 18px -6px rgb(56 240 228 / 0.8);
+  color: var(--neon-400);
+}
+
+.bluetooth__device-badge-dot {
+  background: var(--smoke);
+  border-radius: 50%;
+  height: 6px;
+  width: 6px;
+}
+
+.bluetooth__device-badge-dot--connected {
+  animation: breathe 4.5s ease-in-out infinite;
+  background: var(--neon-500);
+}
+
+.bluetooth__device-id-wrap {
+  border-top: 1px solid rgb(255 255 255 / 0.06);
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.bluetooth__device-id {
+  color: var(--mist);
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 6px;
+  word-break: break-all;
+}
+
+.bluetooth__device-reconnect {
+  align-items: center;
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 9999px;
+  color: var(--chalk);
+  display: flex;
+  font-size: 10px;
+  font-weight: 600;
+  gap: 8px;
+  justify-content: center;
+  letter-spacing: 0.18em;
+  margin-top: 16px;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  transition: all 0.5s var(--ease-lux);
+  width: 100%;
+}
+
+.bluetooth__device-reconnect:hover {
+  background: rgb(56 240 228 / 0.1);
+  border-color: rgb(56 240 228 / 0.4);
+  box-shadow: var(--shadow-glow);
+  color: var(--neon-400);
+}
+
+.bluetooth__device-reconnect:active {
+  transform: scale(0.97);
+}
+
+.bluetooth__device-reconnect-icon {
+  height: 14px;
+  width: 14px;
+}
+
+/* Telemetry strip */
+
+.bluetooth__telemetry {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 20px;
+}
+
+.bluetooth-telemetry {
+  animation: fade-up 0.6s var(--ease-lux) both;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgb(16 16 19 / 0.7);
+  border: 1px solid rgb(255 255 255 / 0.06);
+  border-radius: var(--radius-xl);
+  padding: 12px;
+  transition: border-color 0.5s var(--ease-lux);
+}
+
+.bluetooth-telemetry--active {
+  border-color: rgb(56 240 228 / 0.3);
+}
+
+.bluetooth-telemetry__icon {
+  color: var(--smoke);
+  height: 14px;
+  stroke-width: 1.8;
+  transition: color 0.5s var(--ease-lux);
+  width: 14px;
+}
+
+.bluetooth-telemetry__icon--active {
+  color: var(--neon-400);
+}
+
+.bluetooth-telemetry__label {
+  color: var(--smoke);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.bluetooth-telemetry__value {
+  color: var(--chalk);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+  transition: color 0.5s var(--ease-lux);
+}
+
+.bluetooth-telemetry__value--active {
+  color: var(--neon-400);
+}
+
+@media (max-width: 400px) {
+  .bluetooth {
+    padding: 0 16px 36px;
+  }
+
+  .bluetooth__heading {
+    font-size: 23px;
+  }
+}

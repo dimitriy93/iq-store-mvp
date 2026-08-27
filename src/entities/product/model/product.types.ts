@@ -7,3 +7,7 @@ export interface IProduct {
     description?: string;
     categoryId: number;
 }
+
+export interface IProductCardProps {
+    product: IProduct;
+}
