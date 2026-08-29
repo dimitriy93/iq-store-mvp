@@ -3,12 +3,13 @@ import {observer} from "mobx-react-lite";
 import {CatalogPagination} from "./catalog-pagination.ui.tsx";
 import {ProductSkeleton} from "./catalog-skeleton.ui.tsx";
 import {catalogStore} from "@/widgets/catalog";
+import {cartStore} from "@/widgets/cart";
 import {ProductCard} from "@/entities/product";
 import "./catalog.styles.scss";
 
 const SKELETON_COUNT = 6;
 
-const formatCount = (value: number): string => String(value).padStart(2, "0");
+const formatCount = (value: number): string => (value === 0 ? "0" : String(value).padStart(2, "0"));
 
 export const CatalogPage = observer(() => {
     useEffect(() => {
@@ -84,6 +85,7 @@ export const CatalogPage = observer(() => {
                         <ProductCard
                             key={`${product.id}-${index}`}
                             product={product}
+                            onAddToCart={cartProduct => cartStore.addProduct(cartProduct)}
                         />
                     ))}
             </div>

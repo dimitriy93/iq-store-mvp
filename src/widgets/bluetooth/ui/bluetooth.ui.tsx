@@ -104,7 +104,6 @@ export const BluetoothPage = () => {
         setBattery(null);
     }, []);
 
-    // Track disconnects of an already paired device while the page is mounted.
     useEffect(() => {
         const current = pairedDevice;
 
@@ -132,8 +131,8 @@ export const BluetoothPage = () => {
             const characteristic = await service.getCharacteristic("battery_level");
             const value = await characteristic.readValue();
             setBattery(value.getUint8(0));
-        } catch {
-            // The device simply does not expose a battery service.
+        } catch(e) {
+            console.error(e);
         }
     }
 

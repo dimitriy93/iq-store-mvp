@@ -11,7 +11,7 @@ export class CatalogStore {
     selectedCategoryId: number | null = null;
     currentPage: number = 1;
 
-    readonly itemsPerPage: number = 12;
+    readonly itemsPerPage: number = 6;
     private readonly repository: ICatalogRepository;
 
     constructor(repository: ICatalogRepository) {

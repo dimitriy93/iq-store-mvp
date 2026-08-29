@@ -97,6 +97,16 @@
   transform: scale(0.96);
 }
 
+.product-card__button--added {
+  background: rgb(56 240 228 / 0.14);
+  border-color: rgb(56 240 228 / 0.5);
+  color: var(--neon-400);
+}
+
+.product-card__button--added .product-card__button-icon {
+  animation: pop 0.35s var(--ease-spring) both;
+}
+
 .product-card__button:disabled {
   color: var(--smoke);
   cursor: not-allowed;

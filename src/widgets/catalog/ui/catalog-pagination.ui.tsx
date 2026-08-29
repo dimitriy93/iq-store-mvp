@@ -25,16 +25,7 @@ export const CatalogPagination = ({ currentPage, totalPages, onPageChange }: ICa
                 <ArrowLeftIcon/>
             </button>
 
-            {pageNumbers.map(page => (
-                <button
-                    key={page}
-                    type="button"
-                    className={currentPage === page ? "catalog__pagination-button active" : "catalog__pagination-button"}
-                    onClick={() => onPageChange(page)}
-                >
-                    {page}
-                </button>
-            ))}
+            {currentPage} / {pageNumbers.length}
 
             <button
                 type="button"

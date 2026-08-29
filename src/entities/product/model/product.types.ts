@@ -10,4 +10,5 @@ export interface IProduct {
 
 export interface IProductCardProps {
     product: IProduct;
+    onAddToCart?: (product: IProduct) => void;
 }

@@ -1,12 +1,17 @@
+import {observer} from "mobx-react-lite";
 import {NavLink, type NavLinkRenderProps} from "react-router-dom";
 import {GemIcon, UserRoundIcon} from "@/shared/components/icons";
+import {cartStore} from "@/widgets/cart";
 import {NAV_ITEMS} from "../model/header.data";
 import "./header.styles.scss";
 
 const getLinkClass = ({isActive}: NavLinkRenderProps): string => isActive ? "header__nav-link active" : "header__nav-link";
 
-export const Header = () => (
-    <header className="header">
+export const Header = observer(() => {
+    const totalCount = cartStore.totalCount;
+
+    return (
+        <header className="header">
         <div className="header__top">
             <div className="header__brand">
                 <div className="header__logo glass">
@@ -19,7 +24,7 @@ export const Header = () => (
                     </h1>
 
                     <p className="header__subtitle">
-                        Atelier · Obsidian series
+                        Тестовый прототип · MVP
                     </p>
                 </div>
             </div>
@@ -46,8 +51,19 @@ export const Header = () => (
                 >
                     <Icon className="header__nav-icon"/>
                     <span>{label}</span>
+
+                    {to === "/cart" && totalCount > 0 && (
+                        <span
+                            aria-label={`В корзине товаров: ${totalCount}`}
+                            className="header__cart-badge tnum"
+                            key={totalCount}
+                        >
+                            {totalCount}
+                        </span>
+                    )}
                 </NavLink>
             ))}
         </nav>
     </header>
-);
+    );
+});

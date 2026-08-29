@@ -19,38 +19,38 @@
 .app__orb {
   border-radius: 50%;
   position: absolute;
-}
 
-.app__orb--neon {
-  animation: float 7s ease-in-out infinite;
-  background: rgb(15 169 161 / 0.18);
-  filter: blur(120px);
-  height: 420px;
-  left: -96px;
-  top: -128px;
-  width: 420px;
-}
+  &--neon {
+    animation: float 7s ease-in-out infinite;
+    background: rgb(15 169 161 / 0.18);
+    filter: blur(120px);
+    height: 420px;
+    left: -96px;
+    top: -128px;
+    width: 420px;
+  }
 
-.app__orb--gold {
-  animation: float 7s ease-in-out infinite;
-  animation-delay: 2.5s;
-  background: rgb(212 172 99 / 0.12);
-  bottom: -160px;
-  filter: blur(130px);
-  height: 440px;
-  right: -96px;
-  width: 440px;
-}
+  &--gold {
+    animation: float 7s ease-in-out infinite;
+    animation-delay: 2.5s;
+    background: rgb(212 172 99 / 0.12);
+    bottom: -160px;
+    filter: blur(130px);
+    height: 440px;
+    right: -96px;
+    width: 440px;
+  }
 
-.app__orb--center {
-  animation: breathe 4.5s ease-in-out infinite;
-  background: rgb(56 240 228 / 0.08);
-  filter: blur(110px);
-  height: 320px;
-  left: 50%;
-  top: 33%;
-  transform: translateX(-50%);
-  width: 320px;
+  &--center {
+    animation: breathe 4.5s ease-in-out infinite;
+    background: rgb(56 240 228 / 0.08);
+    filter: blur(110px);
+    height: 320px;
+    left: 50%;
+    top: 33%;
+    transform: translateX(-50%);
+    width: 320px;
+  }
 }
 
 .app__grid {
@@ -69,11 +69,10 @@
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   background: rgb(11 11 12 / 0.5);
-  border: 1px solid rgb(255 255 255 / 0.08);
   display: flex;
   flex-direction: column;
   height: 100dvh;
-  max-width: 440px;
+  max-width: none;
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -105,8 +104,24 @@
   }
 
   .app__frame {
+    border: 1px solid rgb(255 255 255 / 0.08);
     border-radius: 2.25rem;
     box-shadow: var(--shadow-lift);
-    height: min(900px, calc(100dvh - 4rem));
+    height: calc(100dvh - 4rem);
+    max-width: 440px;
+  }
+}
+
+@media (max-width: 400px) {
+  .app {
+    overflow-x: hidden;
+  }
+
+  .app__frame {
+    max-width: 100vw;
+  }
+
+  .app__page {
+    min-width: 0;
   }
 }
