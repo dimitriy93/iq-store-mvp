@@ -1,6 +1,7 @@
 import {observer} from "mobx-react-lite";
 import {NavLink, type NavLinkRenderProps} from "react-router-dom";
-import {GemIcon, UserRoundIcon} from "@/shared/components/icons";
+import {useEffect, useRef, useState} from "react";
+import {GemIcon, TrashIcon, UserRoundIcon} from "@/shared/components/icons";
 import {cartStore} from "@/widgets/cart";
 import {NAV_ITEMS} from "../model/header.data";
 import "./header.styles.scss";
@@ -9,6 +10,39 @@ const getLinkClass = ({isActive}: NavLinkRenderProps): string => isActive ? "hea
 
 export const Header = observer(() => {
     const totalCount = cartStore.totalCount;
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const userMenuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!isUserMenuOpen) {
+            return;
+        }
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setIsUserMenuOpen(false);
+            }
+        };
+
+        const handlePointerDown = (event: PointerEvent) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+                setIsUserMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("pointerdown", handlePointerDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("pointerdown", handlePointerDown);
+        };
+    }, [isUserMenuOpen]);
+
+    const handleClearOrders = () => {
+        cartStore.clearOrders();
+        setIsUserMenuOpen(false);
+    };
 
     return (
         <header className="header">
@@ -29,13 +63,32 @@ export const Header = observer(() => {
                 </div>
             </div>
 
-            <button
-                className="header__user glass"
-                type="button"
-                aria-label="Профиль"
-            >
-                <UserRoundIcon className="header__user-icon"/>
-            </button>
+            <div className="header__user-wrap" ref={userMenuRef}>
+                <button
+                    className="header__user glass"
+                    type="button"
+                    aria-label="Профиль"
+                    aria-haspopup="menu"
+                    aria-expanded={isUserMenuOpen}
+                    onClick={() => setIsUserMenuOpen(isOpen => !isOpen)}
+                >
+                    <UserRoundIcon className="header__user-icon"/>
+                </button>
+
+                {isUserMenuOpen && (
+                    <div className="header__user-menu glass" role="menu" aria-label="Меню профиля">
+                        <button
+                            className="header__user-menu-item"
+                            type="button"
+                            role="menuitem"
+                            onClick={handleClearOrders}
+                        >
+                            <TrashIcon className="header__user-menu-item-icon"/>
+                            <span>Очистить историю заказов</span>
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
 
         <nav className="header__nav glass" aria-label="Primary">

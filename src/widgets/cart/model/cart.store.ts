@@ -137,6 +137,11 @@ export class CartStore {
         this.lastOrderId = null;
     }
 
+    clearOrders() {
+        this.orders = [];
+        this.saveOrders();
+    }
+
     private saveOrders() {
         try {
             localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(this.orders));

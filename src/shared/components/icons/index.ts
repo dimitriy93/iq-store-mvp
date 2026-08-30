@@ -12,6 +12,7 @@ export {
     MinusIcon,
     PlusIcon,
     RadioIcon,
+    TrashIcon,
     TriangleAlertIcon,
     UnplugIcon,
     UserRoundIcon,
