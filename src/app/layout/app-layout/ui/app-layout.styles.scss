@@ -100,15 +100,22 @@
 
 @media (min-width: 768px) {
   .app {
-    padding: 32px;
+    padding: 0;
   }
 
   .app__frame {
-    border: 1px solid rgb(255 255 255 / 0.08);
-    border-radius: 2.25rem;
-    box-shadow: var(--shadow-lift);
-    height: calc(100dvh - 4rem);
-    max-width: 440px;
+    background: rgb(11 11 12 / 0.55);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    height: 100dvh;
+    max-width: none;
+  }
+
+  .app__page {
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 100%;
   }
 }
 

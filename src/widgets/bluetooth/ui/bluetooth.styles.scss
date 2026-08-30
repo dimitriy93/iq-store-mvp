@@ -465,3 +465,29 @@
     font-size: 23px;
   }
 }
+
+@media (min-width: 768px) {
+  .bluetooth {
+    margin: 0 auto;
+    max-width: 760px;
+    padding: 0 32px 48px;
+    width: 100%;
+  }
+
+  .bluetooth__heading {
+    font-size: 32px;
+  }
+
+  .bluetooth__device,
+  .bluetooth__toast {
+    padding: 20px;
+  }
+
+  .bluetooth__telemetry {
+    gap: 16px;
+  }
+
+  .bluetooth-telemetry {
+    padding: 16px;
+  }
+}

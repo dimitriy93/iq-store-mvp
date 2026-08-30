@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {Fragment, useEffect} from "react";
 import {observer} from "mobx-react-lite";
 import {CatalogPagination} from "./catalog-pagination.ui.tsx";
 import {ProductSkeleton} from "./catalog-skeleton.ui.tsx";
@@ -8,8 +8,6 @@ import {ProductCard} from "@/entities/product";
 import "./catalog.styles.scss";
 
 const SKELETON_COUNT = 6;
-
-const formatCount = (value: number): string => (value === 0 ? "0" : String(value).padStart(2, "0"));
 
 export const CatalogPage = observer(() => {
     useEffect(() => {
@@ -32,43 +30,77 @@ export const CatalogPage = observer(() => {
                 </div>
 
                 <p className="catalog__count tnum">
-                    {catalogStore.isLoading ? "—" : `${formatCount(productCount)} позиций`}
+                    {catalogStore.isLoading ? "—" : `${productCount} позиций`}
                 </p>
             </header>
 
-            <div className="catalog__filter">
-                <label htmlFor="category">
-                    Категория
-                </label>
+            {catalogStore.breadcrumbs.length > 0 && (
+                <nav className="catalog__breadcrumbs" aria-label="Навигация по категориям">
+                    {catalogStore.breadcrumbs.map((crumb, index) => {
+                        const isLast = index === catalogStore.breadcrumbs.length - 1;
 
-                <select
-                    id="category"
-                    value={catalogStore.selectedCategoryId ?? ""}
-                    onChange={(event) => {
-                        const value = event.target.value;
+                        return (
+                            <Fragment key={crumb.id}>
+                                {index > 0 && (
+                                    <span className="catalog__breadcrumbs-separator">
+                                        /
+                                    </span>
+                                )}
 
-                        if (!value) {
-                            catalogStore.resetCategory();
-                            return;
-                        }
+                                {isLast ? (
+                                    <span className="catalog__breadcrumbs-current">
+                                        {crumb.name}
+                                    </span>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        className="catalog__breadcrumbs-link"
+                                        onClick={() => catalogStore.selectCategory(crumb.id)}
+                                    >
+                                        {crumb.name}
+                                    </button>
+                                )}
+                            </Fragment>
+                        );
+                    })}
+                </nav>
+            )}
 
-                        catalogStore.selectCategory(Number(value));
-                    }}
-                >
-                    <option value="">
-                        Все категории
-                    </option>
+            {catalogStore.childCategories.length > 0 && (
+                <div className="catalog__filter">
+                    <label htmlFor="category">
+                        Категория
+                    </label>
 
-                    {catalogStore.categories.map((category) => (
-                        <option
-                            key={category.id}
-                            value={category.id}
-                        >
-                            {category.name}
+                    <select
+                        id="category"
+                        value={catalogStore.selectedCategoryId || ""}
+                        onChange={(event) => {
+                            const value = event.target.value;
+
+                            if (!value) {
+                                catalogStore.resetCategory();
+                                return;
+                            }
+
+                            catalogStore.selectCategory(value);
+                        }}
+                    >
+                        <option value="">
+                            Все категории
                         </option>
-                    ))}
-                </select>
-            </div>
+
+                        {catalogStore.childCategories.map((category) => (
+                            <option
+                                key={category.id}
+                                value={category.id}
+                            >
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            )}
 
             {catalogStore.error && (
                 <div className="catalog__error" role="alert">

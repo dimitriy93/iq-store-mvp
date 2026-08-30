@@ -1,6 +1,7 @@
+import type {ICategory} from "@/entities/category";
+import {findRootCategory, getCategoryChain, getCategoryChildren, getCategoryDescendantIds} from "@/entities/category";
 import type {IProduct} from "@/entities/product";
 import {CatalogRepository, type ICatalogRepository} from "@/widgets/catalog";
-import type {ICategory} from "@/entities/category";
 import {computed, makeAutoObservable} from "mobx";
 
 export class CatalogStore {
@@ -8,14 +9,18 @@ export class CatalogStore {
     categories: ICategory[] = [];
     isLoading: boolean = false;
     error: string | null = null;
-    selectedCategoryId: number | null = null;
+    selectedCategoryId: string | null = null;
     currentPage: number = 1;
 
-    readonly itemsPerPage: number = 6;
+    readonly itemsPerPage: number = 10;
     private readonly repository: ICatalogRepository;
 
     constructor(repository: ICatalogRepository) {
         makeAutoObservable(this, {
+            rootCategory: computed,
+            currentCategory: computed,
+            breadcrumbs: computed,
+            childCategories: computed,
             filteredProducts: computed,
             paginatedProducts: computed,
             totalPages: computed,
@@ -23,14 +28,46 @@ export class CatalogStore {
         this.repository = repository;
     }
 
-    get filteredProducts(): IProduct[] {
+    get rootCategory(): ICategory | undefined {
+        return findRootCategory(this.categories);
+    }
+
+    get currentCategory(): ICategory | null {
         if (!this.selectedCategoryId) {
+            return null;
+        }
+
+        return this.categories.find(category => category.id === this.selectedCategoryId) ?? null;
+    }
+
+    get breadcrumbs(): ICategory[] {
+        if (this.currentCategory) {
+            return getCategoryChain(this.categories, this.currentCategory.id);
+        }
+
+        return this.rootCategory ? [this.rootCategory] : [];
+    }
+
+    get childCategories(): ICategory[] {
+        const parentId = this.selectedCategoryId ?? this.rootCategory?.id;
+
+        if (!parentId) {
+            return [];
+        }
+
+        return getCategoryChildren(this.categories, parentId);
+    }
+
+    get filteredProducts(): IProduct[] {
+        const categoryId = this.selectedCategoryId ?? this.rootCategory?.id;
+
+        if (!categoryId) {
             return this.products;
         }
 
-        return this.products.filter(
-            product => product.categoryId === this.selectedCategoryId
-        );
+        const categoryIds = getCategoryDescendantIds(this.categories, categoryId);
+
+        return this.products.filter(product => categoryIds.has(String(product.categoryId)));
     }
 
     get paginatedProducts(): IProduct[] {
@@ -61,14 +98,13 @@ export class CatalogStore {
         }
     }
 
-    selectCategory(categoryId: number) {
+    selectCategory(categoryId: string | null) {
         this.selectedCategoryId = categoryId;
         this.currentPage = 1;
     }
 
     resetCategory() {
-        this.selectedCategoryId = null;
-        this.currentPage = 1;
+        this.selectCategory(null);
     }
 
     setPage(page: number) {

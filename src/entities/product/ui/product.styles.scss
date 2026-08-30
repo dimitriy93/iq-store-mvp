@@ -9,6 +9,7 @@
   -webkit-backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
+  height: 100%;
   overflow: hidden;
   padding: 10px;
   position: relative;
@@ -46,6 +47,9 @@
 }
 
 .product-card__copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: 12px 4px 0;
 }
 
@@ -57,6 +61,7 @@
   font-size: 13px;
   font-weight: 500;
   line-height: 1.4;
+  min-height: calc(2 * 1.4em);
   overflow: hidden;
 }
 
