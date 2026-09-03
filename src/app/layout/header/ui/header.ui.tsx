@@ -1,9 +1,9 @@
 import {observer} from "mobx-react-lite";
-import {NavLink, type NavLinkRenderProps} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
+import {NavLink, type NavLinkRenderProps} from "react-router-dom";
 import {GemIcon, TrashIcon, UserRoundIcon} from "@/shared/components/icons";
-import {cartStore} from "@/widgets/cart";
 import {NAV_ITEMS} from "../model/header.data";
+import {cartStore} from "@/widgets/cart";
 import "./header.styles.scss";
 
 const getLinkClass = ({isActive}: NavLinkRenderProps): string => isActive ? "header__nav-link active" : "header__nav-link";
@@ -67,20 +67,16 @@ export const Header = observer(() => {
                 <button
                     className="header__user glass"
                     type="button"
-                    aria-label="Профиль"
-                    aria-haspopup="menu"
-                    aria-expanded={isUserMenuOpen}
                     onClick={() => setIsUserMenuOpen(isOpen => !isOpen)}
                 >
                     <UserRoundIcon className="header__user-icon"/>
                 </button>
 
                 {isUserMenuOpen && (
-                    <div className="header__user-menu glass" role="menu" aria-label="Меню профиля">
+                    <div className="header__user-menu glass">
                         <button
                             className="header__user-menu-item"
                             type="button"
-                            role="menuitem"
                             onClick={handleClearOrders}
                         >
                             <TrashIcon className="header__user-menu-item-icon"/>
@@ -91,7 +87,7 @@ export const Header = observer(() => {
             </div>
         </div>
 
-        <nav className="header__nav glass" aria-label="Primary">
+        <nav className="header__nav glass">
             <div className="header__nav-indicator" aria-hidden>
                 <div className="header__nav-indicator-inner"/>
             </div>
@@ -107,7 +103,6 @@ export const Header = observer(() => {
 
                     {to === "/cart" && totalCount > 0 && (
                         <span
-                            aria-label={`В корзине товаров: ${totalCount}`}
                             className="header__cart-badge tnum"
                             key={totalCount}
                         >

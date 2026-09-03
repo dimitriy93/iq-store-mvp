@@ -21,7 +21,9 @@ export const ProductCard = ({product, onAddToCart}: IProductCardProps) => {
     }, [justAdded]);
 
     const handleAddToCart = () => {
-        onAddToCart?.(product);
+        if (onAddToCart) {
+            onAddToCart(product);
+        }
         setJustAdded(true);
     };
 
@@ -49,7 +51,11 @@ export const ProductCard = ({product, onAddToCart}: IProductCardProps) => {
                     disabled={!available}
                     onClick={handleAddToCart}
                 >
-                    {available && (justAdded ? <CheckIcon className="product-card__button-icon"/> : <PlusIcon className="product-card__button-icon"/>)}
+                    {available && (
+                        justAdded
+                            ? <CheckIcon className="product-card__button-icon"/>
+                            : <PlusIcon className="product-card__button-icon"/>)
+                    }
                     {available ? (justAdded ? "Добавлено" : "Добавить") : "Нет в наличии"}
                 </button>
             </div>

@@ -1,8 +1,13 @@
-import type {ICategory} from "@/entities/category";
-import {findRootCategory, getCategoryChain, getCategoryChildren, getCategoryDescendantIds} from "@/entities/category";
+import {makeAutoObservable} from "mobx";
 import type {IProduct} from "@/entities/product";
+import type {ICategory} from "@/entities/category";
+import {
+    findRootCategory,
+    getCategoryChain,
+    getCategoryChildren,
+    getCategoryDescendantIds
+} from "@/entities/category";
 import {CatalogRepository, type ICatalogRepository} from "@/widgets/catalog";
-import {computed, makeAutoObservable} from "mobx";
 
 export class CatalogStore {
     products: IProduct[] = [];
@@ -16,15 +21,7 @@ export class CatalogStore {
     private readonly repository: ICatalogRepository;
 
     constructor(repository: ICatalogRepository) {
-        makeAutoObservable(this, {
-            rootCategory: computed,
-            currentCategory: computed,
-            breadcrumbs: computed,
-            childCategories: computed,
-            filteredProducts: computed,
-            paginatedProducts: computed,
-            totalPages: computed,
-        });
+        makeAutoObservable(this);
         this.repository = repository;
     }
 
@@ -37,7 +34,7 @@ export class CatalogStore {
             return null;
         }
 
-        return this.categories.find(category => category.id === this.selectedCategoryId) ?? null;
+        return this.categories.find(category => category.id === this.selectedCategoryId) || null;
     }
 
     get breadcrumbs(): ICategory[] {
@@ -49,7 +46,7 @@ export class CatalogStore {
     }
 
     get childCategories(): ICategory[] {
-        const parentId = this.selectedCategoryId ?? this.rootCategory?.id;
+        const parentId = this.selectedCategoryId || this.rootCategory?.id;
 
         if (!parentId) {
             return [];
@@ -59,7 +56,7 @@ export class CatalogStore {
     }
 
     get filteredProducts(): IProduct[] {
-        const categoryId = this.selectedCategoryId ?? this.rootCategory?.id;
+        const categoryId = this.selectedCategoryId || this.rootCategory?.id;
 
         if (!categoryId) {
             return this.products;
@@ -81,12 +78,12 @@ export class CatalogStore {
         return Math.max(1, Math.ceil(this.filteredProducts.length / this.itemsPerPage));
     }
 
-    async loadCatalog(): Promise<void> {
+    *loadCatalog() {
         this.isLoading = true;
         this.error = null;
 
         try {
-            const { products, categories } = await this.repository.getCatalog();
+            const { products, categories } = yield this.repository.getCatalog();
             this.products = products;
             this.categories = categories;
             this.resetCategory();

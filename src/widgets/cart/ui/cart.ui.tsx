@@ -1,10 +1,10 @@
+import {useState} from "react";
 import {Link} from "react-router-dom";
 import {cartStore} from "@/widgets/cart";
-import {useState} from "react";
-import {getProductImage} from "@/entities/product";
 import {observer} from "mobx-react-lite";
-import {formatDate, formatPrice} from "../lib/cart.utils";
 import {ArrowRightIcon, CartIcon, CheckIcon, MinusIcon, PlusIcon, XIcon} from "@/shared/components/icons";
+import {formatDate, formatPrice} from "../lib/cart.utils";
+import {getProductImage} from "@/entities/product";
 import "./cart.styles.scss";
 
 export const CartPage = observer(() => {

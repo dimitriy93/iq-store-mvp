@@ -264,7 +264,7 @@
 
 .cart__item-price {
   color: var(--gold-400);
-  font-family: var(--font-display);
+  font-family: var(--font-display), serif;
   font-size: 14px;
   font-weight: 600;
   margin-top: 4px;
@@ -309,7 +309,7 @@
 
 .cart__item-qty-value {
   color: var(--chalk);
-  font-family: var(--font-display);
+  font-family: var(--font-display), serif;
   font-size: 13px;
   font-weight: 600;
   min-width: 22px;
@@ -359,7 +359,7 @@
   align-items: baseline;
   border-top: 1px solid rgb(255 255 255 / 0.08);
   color: var(--chalk);
-  font-family: var(--font-display);
+  font-family: var(--font-display), serif;
   font-size: 15px;
   font-weight: 600;
   padding-top: 12px;
@@ -486,7 +486,7 @@
 
 .cart__order-id {
   color: var(--chalk);
-  font-family: var(--font-display);
+  font-family: var(--font-display), serif;
   font-size: 12px;
   font-weight: 600;
 }
@@ -509,7 +509,7 @@
 
 .cart__order-total {
   color: var(--gold-400);
-  font-family: var(--font-display);
+  font-family: var(--font-display), serif;
   font-size: 13px;
   font-weight: 600;
 }

@@ -1,8 +1,8 @@
 import {createBrowserRouter, Outlet, Navigate} from "react-router";
+import {BluetoothPage} from "@/widgets/bluetooth";
 import {AppLayout} from "../layout/app-layout";
 import {CatalogPage} from "@/widgets/catalog";
 import {CartPage} from "@/widgets/cart";
-import {BluetoothPage} from "@/widgets/bluetooth";
 
 export const routes = createBrowserRouter([
     {

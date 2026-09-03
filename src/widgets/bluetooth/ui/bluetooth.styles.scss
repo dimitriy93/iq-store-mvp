@@ -35,8 +35,6 @@
   font-weight: 600;
 }
 
-/* Radar stage */
-
 .bluetooth__radar {
   align-items: center;
   display: flex;
@@ -216,8 +214,6 @@
   text-align: center;
 }
 
-/* Error toast */
-
 .bluetooth__toast {
   align-items: flex-start;
   animation: fade-up 0.6s var(--ease-lux) both;
@@ -269,8 +265,6 @@
   height: 14px;
   width: 14px;
 }
-
-/* Paired device card */
 
 .bluetooth__device {
   animation: fade-up 0.6s var(--ease-lux) both;
@@ -398,62 +392,11 @@
   width: 14px;
 }
 
-/* Telemetry strip */
-
 .bluetooth__telemetry {
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(3, 1fr);
   margin-top: 20px;
-}
-
-.bluetooth-telemetry {
-  animation: fade-up 0.6s var(--ease-lux) both;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgb(16 16 19 / 0.7);
-  border: 1px solid rgb(255 255 255 / 0.06);
-  border-radius: var(--radius-xl);
-  padding: 12px;
-  transition: border-color 0.5s var(--ease-lux);
-}
-
-.bluetooth-telemetry--active {
-  border-color: rgb(56 240 228 / 0.3);
-}
-
-.bluetooth-telemetry__icon {
-  color: var(--smoke);
-  height: 14px;
-  stroke-width: 1.8;
-  transition: color 0.5s var(--ease-lux);
-  width: 14px;
-}
-
-.bluetooth-telemetry__icon--active {
-  color: var(--neon-400);
-}
-
-.bluetooth-telemetry__label {
-  color: var(--smoke);
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  margin-top: 10px;
-  text-transform: uppercase;
-}
-
-.bluetooth-telemetry__value {
-  color: var(--chalk);
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
-  margin-top: 4px;
-  transition: color 0.5s var(--ease-lux);
-}
-
-.bluetooth-telemetry__value--active {
-  color: var(--neon-400);
 }
 
 @media (max-width: 400px) {
@@ -485,9 +428,5 @@
 
   .bluetooth__telemetry {
     gap: 16px;
-  }
-
-  .bluetooth-telemetry {
-    padding: 16px;
   }
 }

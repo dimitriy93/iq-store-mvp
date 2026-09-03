@@ -1,5 +1,10 @@
 import type {ComponentType} from "react";
-import {BluetoothIcon, CartIcon, CatalogIcon, type IIconProps} from "@/shared/components/icons";
+import {
+    BluetoothIcon,
+    CartIcon,
+    CatalogIcon,
+    type IIconProps
+} from "@/shared/components/icons";
 
 interface INavItem {
     to: string;

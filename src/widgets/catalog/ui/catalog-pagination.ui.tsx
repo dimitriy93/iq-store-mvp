@@ -19,7 +19,6 @@ export const CatalogPagination = ({ currentPage, totalPages, onPageChange }: ICa
                 type="button"
                 className="catalog__pagination-button"
                 disabled={currentPage === 1}
-                aria-label="Предыдущая страница"
                 onClick={() => onPageChange(currentPage - 1)}
             >
                 <ArrowLeftIcon/>
@@ -31,7 +30,6 @@ export const CatalogPagination = ({ currentPage, totalPages, onPageChange }: ICa
                 type="button"
                 className="catalog__pagination-button"
                 disabled={currentPage === totalPages}
-                aria-label="Следующая страница"
                 onClick={() => onPageChange(currentPage + 1)}
             >
                 <ArrowRightIcon/>

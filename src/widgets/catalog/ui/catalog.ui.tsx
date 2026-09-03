@@ -1,10 +1,10 @@
-import {Fragment, useEffect} from "react";
 import {observer} from "mobx-react-lite";
+import {Fragment, useEffect} from "react";
 import {CatalogPagination} from "./catalog-pagination.ui.tsx";
 import {ProductSkeleton} from "./catalog-skeleton.ui.tsx";
+import {ProductCard} from "@/entities/product";
 import {catalogStore} from "@/widgets/catalog";
 import {cartStore} from "@/widgets/cart";
-import {ProductCard} from "@/entities/product";
 import "./catalog.styles.scss";
 
 const SKELETON_COUNT = 6;
@@ -42,15 +42,11 @@ export const CatalogPage = observer(() => {
                         return (
                             <Fragment key={crumb.id}>
                                 {index > 0 && (
-                                    <span className="catalog__breadcrumbs-separator">
-                                        /
-                                    </span>
+                                    <span className="catalog__breadcrumbs-separator">/</span>
                                 )}
 
                                 {isLast ? (
-                                    <span className="catalog__breadcrumbs-current">
-                                        {crumb.name}
-                                    </span>
+                                    <span className="catalog__breadcrumbs-current">{crumb.name}</span>
                                 ) : (
                                     <button
                                         type="button"
@@ -103,7 +99,7 @@ export const CatalogPage = observer(() => {
             )}
 
             {catalogStore.error && (
-                <div className="catalog__error" role="alert">
+                <div className="catalog__error">
                     {catalogStore.error}
                 </div>
             )}

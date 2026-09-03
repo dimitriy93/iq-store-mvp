@@ -1,5 +1,5 @@
-import {useLocation} from "react-router-dom";
 import type {ReactNode} from "react";
+import {useLocation} from "react-router-dom";
 import {Header} from "@/app/layout/header";
 import "./app-layout.styles.scss";
 

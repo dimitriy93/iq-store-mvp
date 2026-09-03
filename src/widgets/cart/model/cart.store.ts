@@ -1,44 +1,7 @@
+import {makeAutoObservable} from "mobx";
 import type {IProduct} from "@/entities/product";
-import {computed, makeAutoObservable} from "mobx";
+import {ORDERS_STORAGE_KEY, readStoredOrders} from "../lib/orders.helpers.ts";
 import type {ICartItem, IOrder, IOrderItem} from "./cart.types";
-
-const ORDERS_STORAGE_KEY = "iq-store-orders";
-const MIN_QUANTITY = 1;
-
-const isValidOrder = (value: unknown): value is IOrder => {
-    if (typeof value !== "object" || value === null) {
-        return false;
-    }
-
-    const order = value as Record<string, unknown>;
-
-    return typeof order.id === "string"
-        && typeof order.customerName === "string"
-        && Array.isArray(order.items)
-        && typeof order.totalCount === "number"
-        && typeof order.totalPrice === "number"
-        && typeof order.createdAt === "string";
-};
-
-const readStoredOrders = (): IOrder[] => {
-    try {
-        const raw = localStorage.getItem(ORDERS_STORAGE_KEY);
-
-        if (!raw) {
-            return [];
-        }
-
-        const parsed: unknown = JSON.parse(raw);
-
-        if (!Array.isArray(parsed)) {
-            return [];
-        }
-
-        return parsed.filter(isValidOrder);
-    } catch {
-        return [];
-    }
-};
 
 export class CartStore {
     items: ICartItem[] = [];
@@ -47,10 +10,7 @@ export class CartStore {
     lastOrderId: string | null = null;
 
     constructor() {
-        makeAutoObservable(this, {
-            totalCount: computed,
-            totalPrice: computed,
-        });
+        makeAutoObservable(this);
     }
 
     get totalCount(): number {
@@ -87,7 +47,7 @@ export class CartStore {
             return;
         }
 
-        if (item.quantity <= MIN_QUANTITY) {
+        if (item.quantity <= 1) {
             this.removeProduct(productId);
             return;
         }
@@ -143,11 +103,7 @@ export class CartStore {
     }
 
     private saveOrders() {
-        try {
-            localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(this.orders));
-        } catch (error) {
-            console.error(`[Cart Store]: ${error}`);
-        }
+        localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(this.orders));
     }
 }
 

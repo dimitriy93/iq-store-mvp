@@ -100,8 +100,6 @@
   color: var(--chalk);
 }
 
-/* Breadcrumbs */
-
 .catalog__breadcrumbs {
   align-items: center;
   display: flex;
@@ -215,8 +213,6 @@
   font-size: 13px;
 }
 
-/* Shimmer primitive */
-
 .shimmer {
   background: var(--ink-800);
   overflow: hidden;
@@ -229,8 +225,6 @@
   inset: 0;
   position: absolute;
 }
-
-/* Skeleton card */
 
 .catalog-skeleton {
   animation: fade-in 0.5s var(--ease-lux) both;
@@ -284,8 +278,6 @@
   width: 100%;
 }
 
-/* Pagination */
-
 .catalog__pagination {
   align-items: center;
   display: flex;
@@ -301,7 +293,7 @@
   border-radius: 9999px;
   color: var(--mist);
   display: flex;
-  font-family: var(--font-display);
+  font-family: var(--font-display), serif;
   font-size: 13px;
   font-weight: 500;
   height: 38px;
