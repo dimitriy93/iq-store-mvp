@@ -13,10 +13,27 @@ export interface IOrderItem {
 }
 
 export interface IOrder {
-    id: string;
-    customerName: string;
-    items: IOrderItem[];
-    totalCount: number;
-    totalPrice: number;
+    id: number;
     createdAt: string;
+    total: number;
+    items: IOrderItem[];
+}
+
+export interface IOrdersResponse {
+    items: IOrder[];
+    pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+    };
+}
+
+export interface ICreateOrderPayload {
+    items: Array<{productId: string; quantity: number}>;
+}
+
+export interface IOrderResponse {
+    id: number;
+    total: number;
 }

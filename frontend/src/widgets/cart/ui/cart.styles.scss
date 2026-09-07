@@ -212,6 +212,48 @@
   width: 14px;
 }
 
+.cart__error {
+  align-items: center;
+  animation: fade-up 0.6s var(--ease-lux) both;
+  border-radius: var(--radius-xl);
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgb(255 107 94 / 0.08);
+  border: 1px solid rgb(255 107 94 / 0.25);
+}
+
+.cart__error-copy {
+  flex: 1;
+}
+
+.cart__error-copy p {
+  color: var(--ember);
+  font-size: 13px;
+}
+
+.cart__error-close {
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: var(--smoke);
+  display: flex;
+  height: 32px;
+  justify-content: center;
+  transition: color 0.5s var(--ease-lux);
+  width: 32px;
+}
+
+.cart__error-close:hover {
+  color: var(--chalk);
+}
+
+.cart__error-close-icon {
+  height: 14px;
+  width: 14px;
+}
+
 .cart__items {
   display: flex;
   flex-direction: column;
@@ -446,6 +488,11 @@
   transform: scale(0.97);
 }
 
+.cart__summary-button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .cart__orders {
   margin-top: 32px;
 }
@@ -559,4 +606,58 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+.catalog__pagination {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  justify-content: space-around;
+  margin-top: 28px;
+}
+
+.catalog__pagination-button {
+  align-items: center;
+  background: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 9999px;
+  color: var(--mist);
+  display: flex;
+  font-family: var(--font-display), serif;
+  font-size: 13px;
+  font-weight: 500;
+  height: 38px;
+  justify-content: center;
+  transition: color 0.5s var(--ease-lux),
+  background 0.5s var(--ease-lux),
+  border-color 0.5s var(--ease-lux),
+  transform 0.5s var(--ease-lux);
+  width: 38px;
+}
+
+.catalog__pagination-button svg {
+  height: 14px;
+  width: 14px;
+}
+
+.catalog__pagination-button:hover:not(:active):not(:disabled):not(.active) {
+  background: rgb(56 240 228 / 0.08);
+  border-color: rgb(56 240 228 / 0.3);
+  color: var(--neon-400);
+}
+
+.catalog__pagination-button.active {
+  background: rgb(56 240 228 / 0.14);
+  border-color: rgb(56 240 228 / 0.45);
+  box-shadow: 0 0 18px -6px rgb(56 240 228 / 0.8);
+  color: var(--neon-400);
+}
+
+.catalog__pagination-button:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.catalog__pagination-button:disabled {
+  color: var(--ink-500);
+  cursor: not-allowed;
 }

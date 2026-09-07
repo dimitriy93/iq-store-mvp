@@ -40,7 +40,6 @@ export const Header = observer(() => {
     }, [isUserMenuOpen]);
 
     const handleClearOrders = () => {
-        cartStore.clearOrders();
         setIsUserMenuOpen(false);
     };
 

@@ -1,24 +1,38 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {cartStore} from "@/widgets/cart";
 import {observer} from "mobx-react-lite";
 import {ArrowRightIcon, CartIcon, CheckIcon, MinusIcon, PlusIcon, XIcon} from "@/shared/components/icons";
+import {CatalogPagination} from "@/widgets/catalog/ui/catalog-pagination.ui";
 import {formatDate, formatPrice} from "../lib/cart.utils";
 import {getProductImage} from "@/entities/product";
 import "./cart.styles.scss";
 
 export const CartPage = observer(() => {
     const [showNameError, setShowNameError] = useState(false);
-    const {items, orders, lastOrderId} = cartStore;
+    const {
+        items,
+        orders,
+        ordersPagination,
+        isLoadingOrders,
+        ordersError,
+        lastOrderId,
+        isSubmitting,
+        checkoutError,
+    } = cartStore;
 
-    const handleCheckout = () => {
+    useEffect(() => {
+        cartStore.loadOrders();
+    }, []);
+
+    const handleCheckout = async () => {
         if (!cartStore.customerName.trim()) {
             setShowNameError(true);
             return;
         }
 
-        cartStore.checkout();
         setShowNameError(false);
+        cartStore.checkout();
     };
 
     return (
@@ -62,6 +76,25 @@ export const CartPage = observer(() => {
                         onClick={() => cartStore.dismissSuccess()}
                     >
                         <XIcon className="cart__success-close-icon"/>
+                    </button>
+                </div>
+            )}
+
+            {checkoutError && (
+                <div className="cart__error glass" role="alert">
+                    <div className="cart__error-copy">
+                        <p>
+                            {checkoutError}
+                        </p>
+                    </div>
+
+                    <button
+                        className="cart__error-close"
+                        type="button"
+                        aria-label="Закрыть"
+                        onClick={() => cartStore.clearCheckoutError()}
+                    >
+                        <XIcon className="cart__error-close-icon"/>
                     </button>
                 </div>
             )}
@@ -200,8 +233,9 @@ export const CartPage = observer(() => {
                             className="cart__summary-button"
                             type="button"
                             onClick={handleCheckout}
+                            disabled={isSubmitting}
                         >
-                            Оформить
+                            {isSubmitting ? "Оформление..." : "Оформить"}
                         </button>
                     </div>
                 </div>
@@ -213,39 +247,61 @@ export const CartPage = observer(() => {
                     История заказов
                 </h3>
 
-                {orders.length === 0 ? (
+                {isLoadingOrders && (
                     <p className="cart__orders-empty">
-                        Заказов пока нет
+                        Загрузка заказов...
                     </p>
-                ) : (
-                    <ul className="cart__orders-list">
-                        {orders.map((order) => (
-                            <li
-                                className="cart__order inner-hairline"
-                                key={order.id}
-                            >
-                                <div className="cart__order-head">
-                                    <span className="cart__order-id">
-                                        Заказ №{order.id.slice(0, 8)}
-                                    </span>
+                )}
 
-                                    <span className="cart__order-date">
-                                        {formatDate(order.createdAt)}
-                                    </span>
-                                </div>
+                {ordersError && (
+                    <p className="cart__orders-empty">
+                        {ordersError}
+                    </p>
+                )}
 
-                                <div className="cart__order-foot">
-                                    <span>
-                                        {order.customerName} · {order.totalCount} поз.
-                                    </span>
+                {!isLoadingOrders && !ordersError && orders.length === 0 && (
+                    <p className="cart__orders-empty">
+                        История заказов пуста
+                    </p>
+                )}
 
-                                    <span className="cart__order-total tnum">
-                                        {formatPrice(order.totalPrice)} ₽
-                                    </span>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                {!isLoadingOrders && !ordersError && orders.length > 0 && (
+                    <>
+                        <ul className="cart__orders-list">
+                            {orders.map((order) => (
+                                <li
+                                    className="cart__order inner-hairline"
+                                    key={order.id}
+                                >
+                                    <div className="cart__order-head">
+                                        <span className="cart__order-id">
+                                            Заказ №{order.id}
+                                        </span>
+
+                                        <span className="cart__order-date">
+                                            {formatDate(order.createdAt)}
+                                        </span>
+                                    </div>
+
+                                    <div className="cart__order-foot">
+                                        <span>
+                                            {order.items.reduce((sum, item) => sum + item.quantity, 0)} поз.
+                                        </span>
+
+                                        <span className="cart__order-total tnum">
+                                            {formatPrice(order.total)} ₽
+                                        </span>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <CatalogPagination
+                            currentPage={ordersPagination.page}
+                            totalPages={ordersPagination.totalPages}
+                            onPageChange={(page) => cartStore.loadOrders(page)}
+                        />
+                    </>
                 )}
             </section>
         </section>

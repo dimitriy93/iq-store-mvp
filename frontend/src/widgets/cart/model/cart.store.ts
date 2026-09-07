@@ -1,13 +1,23 @@
 import {makeAutoObservable} from "mobx";
 import type {IProduct} from "@/entities/product";
-import {ORDERS_STORAGE_KEY, readStoredOrders} from "../lib/orders.helpers.ts";
-import type {ICartItem, IOrder, IOrderItem} from "./cart.types";
+import {cartRepository} from "../api/cart.repository";
+import type {ICartItem, IOrder, IOrderResponse, IOrdersResponse} from "./cart.types";
 
 export class CartStore {
     items: ICartItem[] = [];
     customerName: string = "";
-    orders: IOrder[] = readStoredOrders();
-    lastOrderId: string | null = null;
+    orders: IOrder[] = [];
+    ordersPagination = {
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 0,
+    };
+    isLoadingOrders: boolean = false;
+    ordersError: string | null = null;
+    lastOrderId: number | null = null;
+    isSubmitting: boolean = false;
+    checkoutError: string | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -63,47 +73,58 @@ export class CartStore {
         this.customerName = name;
     }
 
-    checkout() {
-        const customerName = this.customerName.trim();
-
-        if (!customerName || this.items.length === 0) {
+    *checkout(): Generator<Promise<unknown>, void, IOrderResponse> {
+        if (this.items.length === 0 || this.isSubmitting) {
             return;
         }
 
-        const orderItems: IOrderItem[] = this.items.map(({product, quantity}) => ({
-            productId: product.id,
-            name: product.name,
-            price: product.price,
-            quantity,
-        }));
+        this.checkoutError = null;
+        this.isSubmitting = true;
 
-        const order: IOrder = {
-            id: crypto.randomUUID(),
-            customerName,
-            items: orderItems,
-            totalCount: this.totalCount,
-            totalPrice: this.totalPrice,
-            createdAt: new Date().toISOString(),
-        };
+        try {
+            const payload = {
+                items: this.items.map(({product, quantity}) => ({
+                    productId: product.id,
+                    quantity,
+                })),
+            };
 
-        this.orders = [order, ...this.orders];
-        this.saveOrders();
-        this.lastOrderId = order.id;
-        this.items = [];
-        this.customerName = "";
+            const response = yield cartRepository.createOrder(payload);
+
+            this.lastOrderId = response.id;
+            this.items = [];
+            this.customerName = "";
+            this.isSubmitting = false;
+
+            this.loadOrders(1);
+        } catch {
+            this.checkoutError = "Не удалось оформить заказ. Попробуйте ещё раз.";
+            this.isSubmitting = false;
+        }
     }
 
     dismissSuccess() {
         this.lastOrderId = null;
     }
 
-    clearOrders() {
-        this.orders = [];
-        this.saveOrders();
+    clearCheckoutError() {
+        this.checkoutError = null;
     }
 
-    private saveOrders() {
-        localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(this.orders));
+    *loadOrders(page = 1) {
+        this.isLoadingOrders = true;
+        this.ordersError = null;
+
+        try {
+            const response: IOrdersResponse = yield cartRepository.getOrders(page, 10);
+
+            this.orders = response.items;
+            this.ordersPagination = response.pagination;
+        } catch {
+            this.ordersError = "Не удалось загрузить историю заказов.";
+        } finally {
+            this.isLoadingOrders = false;
+        }
     }
 }
 
