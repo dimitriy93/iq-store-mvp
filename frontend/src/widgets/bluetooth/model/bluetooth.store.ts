@@ -5,7 +5,7 @@ import type {
     IDeviceInfo,
     TPhase,
 } from "./bluetooth.types";
-import {describeError, isSupported} from "../lib/bluetooth.utuls.ts";
+import {describeError, isSupported} from "../lib/bluetooth.utils.ts";
 
 export class BluetoothStore {
     phase: TPhase = "idle";
