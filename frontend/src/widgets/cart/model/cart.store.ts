@@ -18,6 +18,8 @@ export class CartStore {
     lastOrderId: number | null = null;
     isSubmitting: boolean = false;
     checkoutError: string | null = null;
+    isDeletingOrders: boolean = false;
+    ordersDeleteError: string | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -124,6 +126,31 @@ export class CartStore {
             this.ordersError = "Не удалось загрузить историю заказов.";
         } finally {
             this.isLoadingOrders = false;
+        }
+    }
+
+    *clearOrders() {
+        if (this.isDeletingOrders) {
+            return;
+        }
+
+        this.isDeletingOrders = true;
+        this.ordersDeleteError = null;
+
+        try {
+            yield cartRepository.clearOrders();
+
+            this.orders = [];
+            this.ordersPagination = {
+                page: 1,
+                limit: 10,
+                total: 0,
+                totalPages: 0,
+            };
+        } catch {
+            this.ordersDeleteError = "Не удалось удалить историю заказов.";
+        } finally {
+            this.isDeletingOrders = false;
         }
     }
 }

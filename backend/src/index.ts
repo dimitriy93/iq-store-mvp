@@ -146,6 +146,22 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  if (req.method === "DELETE" && req.url === "/api/orders") {
+    try {
+      await db.transaction(async (trx) => {
+        await trx("order_items").del();
+        await trx("orders").del();
+      });
+
+      sendJson(res, 200, { success: true });
+    } catch (err) {
+      console.error(err);
+      sendJson(res, 500, { error: "Не удалось удалить историю заказов" });
+    }
+
+    return;
+  }
+
   if (req.method === "GET" && req.url?.startsWith("/api/orders")) {
     const url = new URL(req.url, `http://${req.headers.host}`);
 

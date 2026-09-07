@@ -39,7 +39,8 @@ export const Header = observer(() => {
         };
     }, [isUserMenuOpen]);
 
-    const handleClearOrders = () => {
+    const handleClearOrders = async () => {
+        cartStore.clearOrders();
         setIsUserMenuOpen(false);
     };
 
@@ -77,6 +78,7 @@ export const Header = observer(() => {
                             className="header__user-menu-item"
                             type="button"
                             onClick={handleClearOrders}
+                            disabled={cartStore.isDeletingOrders}
                         >
                             <TrashIcon className="header__user-menu-item-icon"/>
                             <span>Очистить историю заказов</span>

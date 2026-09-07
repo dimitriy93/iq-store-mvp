@@ -26,6 +26,14 @@ export class CartRepository {
 
         return await res.json() as IOrdersResponse;
     }
+
+    async clearOrders(): Promise<void> {
+        const res = await fetch("/api/orders", { method: "DELETE" });
+
+        if (!res.ok) {
+            throw new Error("Не удалось удалить историю заказов");
+        }
+    }
 }
 
 export const cartRepository = new CartRepository();
